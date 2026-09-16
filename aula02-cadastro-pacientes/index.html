@@ -39,10 +39,18 @@
 
     <h2 class="h4 mb-3">Pacientes cadastrados</h2>
 
+    <p id="contador-pacientes" class="fw-bold mb-3">
+      Pacientes do arquivo: 0 | Cadastrados nesta sessão: 0
+    </p>
+
+    <div id="mensagem-erro" class="alert alert-danger d-none" role="alert"></div>
+
     <!-- Mensagem de carregamento, visível enquanto os dados não chegam -->
     <p id="carregando" class="text-muted">Carregando pacientes...</p>
 
-    <table class="table table-striped">
+    <p id="mensagem-vazia" class="text-warning d-none">Nenhum paciente cadastrado ainda</p>
+
+    <table class="table table-striped" id="tabela-pacientes">
       <thead>
         <tr>
           <th>Nome</th>
@@ -50,7 +58,7 @@
           <th>Data de nascimento</th>
         </tr>
       </thead>
-      <tbody id="tabela-pacientes"></tbody>
+      <tbody id="tabela-pacientes-body"></tbody>
     </table>
   </div>
 
