@@ -4,9 +4,16 @@ const URL_API = 'http://localhost:3000/pacientes';
 const formulario = document.getElementById('form-paciente');
 const tabela = document.getElementById('tabela-pacientes');
 const mensagemCarregando = document.getElementById('carregando');
+const contadorPacientes = document.getElementById('contador-pacientes');
+
+function atualizarContador() {
+	const total = pacientes.length;
+	contadorPacientes.textContent = `${total} paciente${total === 1 ? '' : 's'}`;
+}
 
 function adicionarPaciente(nome, email, nascimento) {
 	pacientes.push({ nome, email, nascimento });
+	atualizarContador();
 }
 
 function renderizarTabela() {
@@ -21,6 +28,8 @@ function renderizarTabela() {
     `;
 		tabela.appendChild(linha);
 	});
+
+	atualizarContador();
 }
 
 function formatarData(dataISO) {
@@ -43,6 +52,7 @@ async function carregarPacientesIniciais() {
 		});
 
 		renderizarTabela();
+		atualizarContador();
 	} catch (erro) {
 		console.error('Não foi possível carregar os pacientes:', erro);
 		mensagemCarregando.textContent =
