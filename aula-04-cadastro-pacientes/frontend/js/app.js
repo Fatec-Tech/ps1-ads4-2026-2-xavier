@@ -1,0 +1,79 @@
+const pacientes = [];
+const URL_API = 'http://localhost:3000/pacientes';
+
+const formulario = document.getElementById('form-paciente');
+const tabela = document.getElementById('tabela-pacientes');
+const mensagemCarregando = document.getElementById('carregando');
+const contadorPacientes = document.getElementById('contador-pacientes');
+
+function atualizarContador() {
+	const total = pacientes.length;
+	contadorPacientes.textContent = `${total} paciente${total === 1 ? '' : 's'}`;
+}
+
+function adicionarPaciente(nome, email, nascimento) {
+	pacientes.push({ nome, email, nascimento });
+	atualizarContador();
+}
+
+function renderizarTabela() {
+	tabela.innerHTML = '';
+
+	pacientes.forEach((paciente) => {
+		const linha = document.createElement('tr');
+		linha.innerHTML = `
+      <td>${paciente.nome}</td>
+      <td>${paciente.email}</td>
+      <td>${formatarData(paciente.nascimento)}</td>
+    `;
+		tabela.appendChild(linha);
+	});
+
+	atualizarContador();
+}
+
+function formatarData(dataISO) {
+	const [ano, mes, dia] = dataISO.split('-');
+	return `${dia}/${mes}/${ano}`;
+}
+
+async function carregarPacientesIniciais() {
+	try {
+		const resposta = await fetch(URL_API);
+
+		if (!resposta.ok) {
+			throw new Error(`Erro HTTP: ${resposta.status}`);
+		}
+
+		const dados = await resposta.json();
+
+		dados.forEach((paciente) => {
+			adicionarPaciente(paciente.nome, paciente.email, paciente.nascimento);
+		});
+
+		renderizarTabela();
+		atualizarContador();
+	} catch (erro) {
+		console.error('Não foi possível carregar os pacientes:', erro);
+		mensagemCarregando.textContent =
+			'Erro ao carregar pacientes. O servidor está rodando?';
+		return;
+	}
+
+	mensagemCarregando.style.display = 'none';
+}
+
+formulario.addEventListener('submit', (event) => {
+	event.preventDefault();
+
+	const nome = document.getElementById('nome').value;
+	const email = document.getElementById('email').value;
+	const nascimento = document.getElementById('nascimento').value;
+
+	adicionarPaciente(nome, email, nascimento);
+	renderizarTabela();
+
+	formulario.reset();
+});
+
+carregarPacientesIniciais();
