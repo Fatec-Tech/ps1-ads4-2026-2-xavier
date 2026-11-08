@@ -44,8 +44,13 @@ Nesta atividade, evoluí o cadastro de pacientes da aula anterior, que usava o m
 
 ```text
 .
+## Estrutura do projeto
+
+```text
+.
 ├── .gitignore
 ├── README.md
+├── testes.sh
 ├── backend/
 │   ├── package.json
 │   └── server.js
@@ -215,6 +220,7 @@ Por fim, percebi que os dados guardados em memória voltam ao estado inicial qua
 
 - Exercícios e melhorias da API: [Issue #7](https://github.com/Fatec-Tech/ps1-ads4-2026-2-xavier/issues/7)
 - Perguntas para discussão: [Issue #8](https://github.com/Fatec-Tech/ps1-ads4-2026-2-xavier/issues/8)
+- Homologação das Rotas da API com CURL: [Issue #9](https://github.com/Fatec-Tech/ps1-ads4-2026-2-xavier/issues/9)
 
 ## Autor
 
