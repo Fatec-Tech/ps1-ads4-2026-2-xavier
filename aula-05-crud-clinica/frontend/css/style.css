@@ -1,0 +1,201 @@
+:root {
+  color-scheme: light;
+  --cor-primaria: #24466b;
+  --cor-primaria-escura: #1b3654;
+  --cor-fundo: #f3f6fa;
+  --cor-borda: #dce4ec;
+  --cor-texto: #263445;
+  --sombra-suave: 0 12px 32px rgb(26 48 73 / 7%);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at top left, rgb(222 233 245 / 65%), transparent 42rem),
+    var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.container.py-5 {
+  max-width: 1140px;
+  padding-top: 3.5rem !important;
+  padding-bottom: 3.5rem !important;
+}
+
+h1 {
+  margin-bottom: 2rem !important;
+  color: var(--cor-primaria-escura);
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  color: var(--cor-primaria-escura);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+#form-paciente {
+  margin-bottom: 3rem !important;
+  padding: 1.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 1rem;
+  background-color: #fff;
+  box-shadow: var(--sombra-suave);
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+  color: #43566b;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-control {
+  min-height: 2.85rem;
+  border-color: #cbd6e2;
+  border-radius: 0.55rem;
+  color: var(--cor-texto);
+}
+
+.form-control:focus {
+  border-color: #7798bc;
+  box-shadow: 0 0 0 0.22rem rgb(36 70 107 / 14%);
+}
+
+.btn {
+  min-height: 2.65rem;
+  border-radius: 0.55rem;
+  font-weight: 600;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  border-color: var(--cor-primaria);
+  background-color: var(--cor-primaria);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  border-color: var(--cor-primaria-escura);
+  background-color: var(--cor-primaria-escura);
+}
+
+#mensagem .alert {
+  border: 0;
+  border-radius: 0.7rem;
+  box-shadow: var(--sombra-suave);
+}
+
+#carregando {
+  margin-bottom: 1rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 0.7rem;
+  background-color: #fff;
+}
+
+.table {
+  overflow: hidden;
+  margin-bottom: 0;
+  border: 1px solid var(--cor-borda);
+  border-radius: 0.85rem;
+  background-color: #fff;
+  box-shadow: var(--sombra-suave);
+  vertical-align: middle;
+}
+
+.table > :not(caption) > * > * {
+  padding: 1rem 1.15rem;
+  border-bottom-color: #e8edf2;
+}
+
+.table thead th {
+  border-bottom: 1px solid var(--cor-borda);
+  background-color: #eaf0f6;
+  color: #344b63;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tbody tr {
+  transition: background-color 150ms ease;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-bg-type: #f9fbfd;
+}
+
+.table tbody tr:hover > * {
+  --bs-table-bg-state: #edf3f8;
+}
+
+.table td {
+  color: #405166;
+}
+
+.table td:last-child {
+  white-space: nowrap;
+}
+
+.table .btn {
+  min-height: 2.2rem;
+  border-radius: 0.45rem;
+}
+
+#tabela-pacientes tr {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .container.py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  #form-paciente {
+    padding: 1.25rem;
+  }
+
+  .table > :not(caption) > * > * {
+    padding: 0.8rem;
+  }
+
+  .table td {
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
