@@ -9,13 +9,37 @@ const campoId = document.getElementById('id');
 const campoNome = document.getElementById('nome');
 const campoEmail = document.getElementById('email');
 const campoNascimento = document.getElementById('nascimento');
+const campoTelefone = document.getElementById('telefone');
 const botaoSalvar = document.getElementById('btn-salvar');
 const botaoCancelar = document.getElementById('btn-cancelar');
 
 
 function formatarData(dataISO) {
-  const [ano, mes, dia] = dataISO.split('-');
+  const [ano, mes, dia] = obterDataISO(dataISO).match(/^(\d{4})-(\d{2})-(\d{2})$/).slice(1);
   return `${dia}/${mes}/${ano}`;
+}
+
+function obterDataISO(data) {
+  if (data instanceof Date) {
+    return [
+      data.getUTCFullYear(),
+      String(data.getUTCMonth() + 1).padStart(2, '0'),
+      String(data.getUTCDate()).padStart(2, '0'),
+    ].join('-');
+  }
+
+  const correspondencia = String(data).match(/^(\d{4}-\d{2}-\d{2})/);
+  if (!correspondencia) {
+    throw new Error(`Data inválida recebida da API: ${data}`);
+  }
+
+  return correspondencia[1];
+}
+
+function formatarDataHora(data) {
+  return new Date(data).toLocaleString('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+  });
 }
 
 function mostrarMensagem(texto, tipo = 'danger') {
@@ -41,6 +65,8 @@ function renderizarTabela(pacientes) {
     linha.appendChild(criarCelula(paciente.nome));
     linha.appendChild(criarCelula(paciente.email));
     linha.appendChild(criarCelula(formatarData(paciente.nascimento)));
+    linha.appendChild(criarCelula(paciente.telefone || '-'));
+    linha.appendChild(criarCelula(formatarDataHora(paciente.criado_em)));
 
     const celulaAcoes = document.createElement('td');
 
@@ -66,7 +92,8 @@ function iniciarEdicao(paciente) {
   campoId.value = paciente.id;
   campoNome.value = paciente.nome;
   campoEmail.value = paciente.email;
-  campoNascimento.value = paciente.nascimento;
+  campoNascimento.value = obterDataISO(paciente.nascimento);
+  campoTelefone.value = paciente.telefone || '';
 
   botaoSalvar.textContent = 'Atualizar';
   botaoCancelar.classList.remove('d-none');
@@ -143,6 +170,7 @@ formulario.addEventListener('submit', async (event) => {
     nome: campoNome.value,
     email: campoEmail.value,
     nascimento: campoNascimento.value,
+    telefone: campoTelefone.value,
   };
 
   try {

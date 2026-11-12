@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node --watch server.js",
     "start": "node server.js",
-    "db:setup": "node scripts/criar-tabela.js"
+    "db:setup": "node scripts/criar-tabela.js",
+    "db:reset": "node scripts/resetar.js"
   },
   "dependencies": {
     "cors": "^2.8.6",

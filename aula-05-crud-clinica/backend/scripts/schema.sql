@@ -2,5 +2,13 @@ CREATE TABLE IF NOT EXISTS pacientes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    nascimento DATE NOT NULL
+    nascimento DATE NOT NULL,
+    telefone VARCHAR(20),
+    criado_em TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE pacientes
+    ADD COLUMN IF NOT EXISTS telefone VARCHAR(20);
+
+ALTER TABLE pacientes
+    ADD COLUMN IF NOT EXISTS criado_em TIMESTAMP NOT NULL DEFAULT NOW();

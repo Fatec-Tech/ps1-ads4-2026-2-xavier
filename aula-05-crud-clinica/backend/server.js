@@ -10,18 +10,40 @@ app.use(express.json());
 
 let proximoId = 4;
 
+// ROTA 1: Listar todos os pacientes (GET) - Com filtro de busca
 app.get('/pacientes', async (req, res) => {
   try {
+    const nomeBusca = req.query.nome;
+
+    // Se o usuário digitou algo na busca
+    if (nomeBusca) {
+      // O ILIKE ignora maiúsculas/minúsculas.
+      // Os '%' servem como curingas: buscam o termo em qualquer parte do texto.
+      const query = 'SELECT * FROM pacientes WHERE nome ILIKE $1 ORDER BY id ASC';
+      const values = [`%${nomeBusca}%`];
+
+      const { rows } = await pool.query(query, values);
+      return res.json(rows);
+    }
+
+    // Se não houver busca, retorna todos os pacientes
     const { rows } = await pool.query('SELECT * FROM pacientes ORDER BY id ASC');
     res.json(rows);
+
   } catch (erro) {
     console.error('Erro ao buscar pacientes:', erro);
     res.status(500).json({ erro: 'Erro interno no servidor' });
   }
 });
 
-app.get('/pacientes/total', (req, res) => {
-  res.json({ total: pacientes.length });
+app.get('/pacientes/total', async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT COUNT(*) FROM pacientes');
+    res.json({ total: Number(rows[0].count) });
+  } catch (erro) {
+    console.error('Erro ao contar pacientes:', erro);
+    res.status(500).json({ erro: 'Erro interno no servidor' });
+  }
 });
 
 //Buscar um paciente pelo ID (GET)
@@ -46,7 +68,7 @@ app.get('/pacientes/:id', async (req, res) => {
 app.post('/pacientes', async (req, res) => {
   try {
     // Extrai os dados do corpo da requisição
-    const { nome, email, nascimento } = req.body ?? {};
+    const { nome, email, nascimento, telefone } = req.body ?? {};
 
     // Validação básica
     if (!nome || !email || !nascimento) {
@@ -54,8 +76,8 @@ app.post('/pacientes', async (req, res) => {
     }
 
     // Comando SQL para inserir e já retornar o registro criado (RETURNING *)
-    const query = 'INSERT INTO pacientes (nome, email, nascimento) VALUES ($1, $2, $3) RETURNING *';
-    const values = [nome, email, nascimento];
+    const query = 'INSERT INTO pacientes (nome, email, nascimento, telefone) VALUES ($1, $2, $3, $4) RETURNING *';
+    const values = [nome, email, nascimento, telefone || null];
 
     const { rows } = await pool.query(query, values);
 
@@ -79,7 +101,7 @@ app.post('/pacientes', async (req, res) => {
 app.put('/pacientes/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const { nome, email, nascimento } = req.body ?? {};
+    const { nome, email, nascimento, telefone } = req.body ?? {};
 
     // Validação básica
     if (!nome || !email || !nascimento) {
@@ -87,8 +109,8 @@ app.put('/pacientes/:id', async (req, res) => {
     }
 
     // Comando SQL para atualizar (UPDATE) e retornar os novos dados (RETURNING *)
-    const query = 'UPDATE pacientes SET nome = $1, email = $2, nascimento = $3 WHERE id = $4 RETURNING *';
-    const values = [nome, email, nascimento, id];
+    const query = 'UPDATE pacientes SET nome = $1, email = $2, nascimento = $3, telefone = $4 WHERE id = $5 RETURNING *';
+    const values = [nome, email, nascimento, telefone || null, id];
 
     const { rows } = await pool.query(query, values);
 

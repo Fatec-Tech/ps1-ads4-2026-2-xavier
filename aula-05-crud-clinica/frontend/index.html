@@ -23,12 +23,12 @@
       <!-- Campo oculto: se tiver valor, estamos EDITANDO (PUT); se vazio, CRIANDO (POST) -->
       <input type="hidden" id="id">
 
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label for="nome" class="form-label">Nome</label>
         <input type="text" class="form-control" id="nome" required>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label for="email" class="form-label">E-mail</label>
         <input type="email" class="form-control" id="email" required>
       </div>
@@ -36,6 +36,11 @@
       <div class="col-md-2">
         <label for="nascimento" class="form-label">Nascimento</label>
         <input type="date" class="form-control" id="nascimento" required>
+      </div>
+
+      <div class="col-md-2">
+        <label for="telefone" class="form-label">Telefone</label>
+        <input type="tel" class="form-control" id="telefone">
       </div>
 
       <div class="col-md-2 d-flex align-items-end gap-2">
@@ -55,6 +60,8 @@
           <th>Nome</th>
           <th>E-mail</th>
           <th>Nascimento</th>
+          <th>Telefone</th>
+          <th>Cadastrado em</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -62,6 +69,6 @@
     </table>
   </div>
 
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=3"></script>
 </body>
 </html>
