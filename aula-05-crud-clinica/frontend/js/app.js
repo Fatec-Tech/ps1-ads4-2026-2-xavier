@@ -1,4 +1,4 @@
-const URL_API = 'https://api-clinica-eduardo-xavier.onrender.com/pacientes';
+const URL_API = 'https://api-clinica-aula05-eduardo.onrender.com/pacientes';
 
 const formulario = document.getElementById('form-paciente');
 const tabela = document.getElementById('tabela-pacientes');
